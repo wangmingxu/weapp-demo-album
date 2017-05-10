@@ -2,7 +2,10 @@ const _ = require('lodash');
 const path = require('path');
 const RouterBase = require('../../../common/routerbase');
 const config = require('../../../config');
-const cos = require('../../../services/cos');
+const qiniu = require('qiniu');
+
+qiniu.conf.ACCESS_KEY = config.qiniu.ACCESS_KEY;
+qiniu.conf.SECRET_KEY = config.qiniu.SECRET_KEY;
 
 class ListImages extends RouterBase {
     handle() {
@@ -13,23 +16,20 @@ class ListImages extends RouterBase {
         const order = 1;
         const context = '';
 
-        cos.list(bucket, listPath, listNum, pattern, order, context, (res) => {
-            if (res.code !== 0) {
-                this.res.json({ code: -1, msg: 'failed', data: {} });
-                return;
-            }
+        qiniu.rsf.listPrefix(config.qiniu.bucket,"","",1000,"",(err,ret)=>{
+          this.res.json({
+            code:0,
+            msg:'ok',
+            data:ret.items.map(item=>{
+              return config.qiniu.imageUrlPrefix+item.key;
+            }).filter(item=>{
+              let extname = String(path.extname(item)).toLowerCase();
 
-            this.res.json({
-                code: 0,
-                msg: 'ok',
-                data: _.map(res.data.infos, 'access_url').filter(item => {
-                    let extname = String(path.extname(item)).toLowerCase();
-
-                    // 只返回`jpg/png`后缀图片
-                    return ['.jpg', '.png'].includes(extname);
-                }),
-            });
-        });
+              // 只返回`jpg/png`后缀图片
+              return extname.indexOf('.jpg')>-1||extname.indexOf('.png')>-1;
+            })
+          });
+        })
     }
 }
 

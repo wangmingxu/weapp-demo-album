@@ -1,10 +1,11 @@
 module.exports = {
-    port: '9993',
+    port: '18080',
     ROUTE_BASE_PATH: '/applet',
 
-    cosAppId: '1253711506',
-    cosSecretId: 'AKIDVt5jR31jpvqa8URaLuIt05085vgK4FTV',
-    cosSecretKey: '2sXzd6OUN4e4JLBsNhpkW6NMANEC2g8O',
-    cosFileBucket: 'album',
-    cosUploadFolder: '/photos/',
+    qiniu: {
+        bucket: 'mxqiniu',
+        ACCESS_KEY: 'oc6ioFJQzVBIRyJ86ZG75SrgjBgKIG3cAd_areTj',
+        SECRET_KEY: 'Pwr7xNYLRPBNkjWZp7ao0DRK9h9lR1pPUkDdktwv',
+        imageUrlPrefix: 'http://images.mxlaravel.cn/'
+    }
 };
