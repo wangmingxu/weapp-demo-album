@@ -1,6 +1,6 @@
 {
     "name": "album",
-    "script": "app.js",
+    "script": "entry.js",
     "cwd": "./",
     "exec_mode": "fork",
     "watch": true,
