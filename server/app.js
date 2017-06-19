@@ -1,3 +1,4 @@
+"use strict";
 require('./globals');
 
 const http = require('http');

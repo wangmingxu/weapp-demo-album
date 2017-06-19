@@ -1,7 +1,7 @@
 /**
  * 封装的路由公共基类，用于添加公用方法，不能直接实例化
  */
-
+"use strict";
 class RouterBase {
     constructor(req, res, next) {
         Object.assign(this, { req, res, next });
